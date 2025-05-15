@@ -66,37 +66,6 @@ def delete(email):
     return redirect(url_for('index'))
 
 @app.route('/modify/<email>', methods=['GET', 'POST'])
-def modify_old(email):
-    applicants = read_applicants()
-    applicant = next((a for a in applicants if a['email'] == email), None)
-    if not applicant:
-        return "Applicant not found", 404
-
-    if request.method == 'POST':
-        data = request.form
-        resume = request.files.get('resume')
-        if resume and resume.filename:
-            filename = secure_filename(resume.filename)
-            resume_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            resume.save(resume_path)
-        else:
-            resume_path = applicant['resumepath']
-
-        updated = {
-            'name': data['name'],
-            'email': data['email'],
-            'phone': data['phone'],
-            'position': data['position'],
-            'resumepath': resume_path
-        }
-
-        applicants = [updated if a['email'] == email else a for a in applicants]
-        write_applicants(applicants)
-        return redirect(url_for('index'))
-
-    return render_template('modify.html', applicant=applicant)
-
-@app.route('/modify/<email>', methods=['GET', 'POST'])
 def modify(email):
     applicants = read_applicants()
     applicant = next((a for a in applicants if a['email'] == email), None)
