@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head><title>Modify Applicant</title></head>
+<body>
+<h2>Modify Applicant</h2>
+<form method="POST" enctype="multipart/form-data">
+    Name: <input type="text" name="name" value="{{ applicant['name'] }}"><br>
+    Email: <input type="text" name="email" value="{{ applicant['email'] }}"><br>
+    Phone: <input type="text" name="phone" value="{{ applicant['phone'] }}"><br>
+    Position: <input type="text" name="position" value="{{ applicant['position'] }}"><br>
+    Resume: <input type="file" name="resume"><br>
+    <input type="submit" value="Update">
+</form>
+<a href="{{ url_for('index') }}">Back to List</a>
+</body>
+</html>
+
