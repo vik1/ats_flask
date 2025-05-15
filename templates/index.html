@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Applicant Tracking System</title>
+</head>
+<body>
+    <h1>Applicant Tracking System</h1>
+
+    <a href="{{ url_for('add') }}">Add New Applicant</a>
+    <br><br>
+
+    {% if applicants %}
+        <table border="1" cellpadding="8">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Position</th>
+                    <th>Resume</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for applicant in applicants %}
+                    <tr>
+                        <td>{{ applicant['name'] }}</td>
+                        <td>{{ applicant['email'] }}</td>
+                        <td>{{ applicant['phone'] }}</td>
+                        <td>{{ applicant['position'] }}</td>
+                        <td>
+                            {% if applicant.get('resumepath') %}
+			        <a href="{{ url_for('uploaded_file', filename=(applicant.get('resumepath')).split('/')[-1]) }}" target="_blank">View Resume</a>
+                            {% else %}
+                                No Resume
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('modify', email=applicant['email']) }}">Modify</a> |
+                            <a href="{{ url_for('delete', email=applicant['email']) }}" onclick="return confirm('Are you sure you want to delete this applicant?');">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No applicants found.</p>
+    {% endif %}
+</body>
+</html>
